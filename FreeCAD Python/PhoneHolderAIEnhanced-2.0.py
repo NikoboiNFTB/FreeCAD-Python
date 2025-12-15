@@ -60,6 +60,10 @@ cut_boxes = [
     (2, 16.25, 2, Vector(0, 0, 0)),
     (2, 16.25, 2, Vector(0, 31.75, 0)),
     (15, 3, 8, Vector(43, 31.75, 0)),
+    (2, 2, 8, Vector(41, 31.75, 0)),
+    (2, 2, 8, Vector(58, 31.75, 0)),
+    (2, 1, 2, Vector(41, 33.75, 6)),
+    (2, 1, 2, Vector(58, 33.75, 6)),
 ]
 
 for length, width, height, pos in cut_boxes:
@@ -76,12 +80,16 @@ cyl_positions = [
     ((71, 14.25, 0), (71, 14.25, 6)),
     ((71, 33.75, 0), (71, 33.75, 6)),
     ((25, 14.25, 6), (71, 14.25, 6)),
-    ((25, 33.75, 6), (43, 33.75, 6)),
-    ((58, 33.75, 6), (71, 33.75, 6)),
+    ((25, 33.75, 6), (41, 33.75, 6)),
+    ((60, 33.75, 6), (71, 33.75, 6)),
     ((71, 0, 25.5), (71, 48, 25.5)),
     ((2, 0, 29.5), (2, 48, 29.5)),
     ((2, 0, 2), (2, 16.25, 2)),
     ((2, 31.75, 2), (2, 48, 2)),
+    ((41, 33.75, 0), (41, 33.75, 6)),
+    ((60, 33.75, 0), (60, 33.75, 6)),
+    ((41, 33.75, 6), (41, 34.75, 6)),
+    ((60, 33.75, 6), (60, 34.75, 6)),
 ]
 
 for start, end in cyl_positions:
@@ -96,10 +104,17 @@ for start, end in cyl_positions:
     current_shape = current_shape.fuse(cyl)
 
 # Add spheres
-sphere_pos = [Vector(71, 14.25, 6), Vector(71, 33.75, 6)]
+sphere_pos = [
+    Vector(71, 14.25, 6),
+    Vector(71, 33.75, 6),
+    Vector(41, 33.75, 6),
+    Vector(60, 33.75, 6),
+]
+
 spheres = [Part.makeSphere(2, pos) for pos in sphere_pos]
-sphere_union = spheres[0].fuse(spheres[1])
-current_shape = current_shape.fuse(sphere_union)
+
+for s in spheres:
+    current_shape = current_shape.fuse(s)
 
 # Create final object in document
 final_obj = doc.addObject("Part::Feature", "Final_Model")
