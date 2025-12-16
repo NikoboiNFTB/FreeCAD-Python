@@ -1,5 +1,3 @@
-CHANGE HEIGHT OF THE SHELF SPLIT !!!
-
 import FreeCAD as App       # type: ignore
 import Part                 # type: ignore
 from FreeCAD import Vector  # type: ignore
