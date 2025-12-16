@@ -39,45 +39,72 @@ cable_cut = Part.makeCylinder(2, 15.5)
 cable_cut.Placement = App.Placement(Vector(19, 32.75, -6), App.Rotation(Vector(1, 0, 0), 90))
 current_shape = current_shape.cut(cable_cut)
 
-# Additional cut boxes
+# Additional Cuts
+
 cut_boxes = [
-    (19, 15.5, 4, Vector(0, 17.25, -8)),        # Charger Cut
-    (2, 15.5, 10, Vector(0, 17.25, -12)),        # Charger Threads Cut
-    (25, 19.5, 2, Vector(25, 15.25, 5.75)),     # Shelf Slide Cut
-    (2, 19.5, 7.75, Vector(48, 15.25, 0)),      # Shelf Slide Cut
-    (2, 50, 19.5, Vector(48, 0, 5.75)),         # Wall Cut
-    (9, 4, 7.75, Vector(41, 32.75, 0)),         # Bolt Cut
-    (2, 2, 7.75, Vector(39, 32.75, 0)),         # Bolt Slide Cut
-    (2, 2, 2, Vector(39, 34.75, 5.75)),
-    (2, 2, 7.75, Vector(48, 36.75, 0)),
-    (9, 2, 2, Vector(39, 36.75, 5.75)),
-    (2, 17.25, 2, Vector(0, 0, 0)),                # Front Edge
-    (2, 18.25, 2, Vector(0, 32.75, 0)),                # Front Edge
-    (2, 50, 2, Vector(0, 0, 29)),
+    # --- Charger Holder ---
+    (19, 15.5, 4, Vector(0, 17.25, -8)),        # Charger crevice
+    (2, 15.5, 10, Vector(0, 17.25, -12)),       # Charger Insert Guides
+
+    # --- Front Edge Smoothing ---
+    (2, 17.25, 2, Vector(0, 0, 0)),             # Charger-side, top
+    (2, 17.25, 2, Vector(0, 32.75, 0)),         # Charger-side, bottom
+    (2, 50, 2, Vector(0, 0, 29)),               # Phone-side
+
+    # --- Shelf Wall Slide ---
+    (2, 50, 19.5, Vector(48, 0, 5.75)),         # Shelf Wall Insert Guides
+
+    # --- Shelf Slide ---
+    (2, 19.5, 7.75, Vector(48, 15.25, 0)),      # Shelf Slide Guide
+
+    # --- Transition ---
+    (25, 19.5, 2, Vector(25, 15.25, 5.75)),     # Shelf slide clearance (horizontal)
+
+    # --- Bolt and fastener access ---
+    (9, 4, 7.75, Vector(41, 32.75, 0)),         # Bolt head access pocket
+    (2, 2, 7.75, Vector(39, 32.75, 0)),         # Bolt shaft slot
+    (2, 2, 2, Vector(39, 34.75, 5.75)),         # Bolt head clearance cube
+
+    # --- Upper fastener alignment ---
+    (2, 2, 7.75, Vector(48, 36.75, 0)),         # Upper bolt shaft slot
+    (9, 2, 2, Vector(39, 36.75, 5.75)),         # Upper bolt head clearance
 ]
 
 for length, width, height, pos in cut_boxes:
     box = Part.makeBox(length, width, height, pos)
     current_shape = current_shape.cut(box)
 
-# Cylinders (wires or supports)
+# Rounding Edges
+
 cyl_positions = [
-    ((2, 17.25, -2), (2, 32.75, -2)),           # Charger Thread
-    ((2, 17.25, -10), (2, 32.75, -10)),         # Charger Thread
-    ((48, 0, 25.25), (48, 50, 25.25)),          # Wall Thread
-    ((48, 0, 5.75), (48, 15.25, 5.75)),         # Wall Thread
-    ((48, 38.75, 5.75), (48, 50, 5.75)),        # Wall Thread
-    ((25, 15.25, 5.75), (48, 15.25, 5.75)),     # Shelf Thread
-    ((25, 34.75, 5.75), (39, 34.75, 5.75)),
-    ((48, 15.25, 0), (48, 15.25, 5.75)),
-    ((39, 34.75, 0), (39, 34.75, 5.75)),
-    ((39, 34.75, 5.75), (39, 38.75, 5.75)),
-    ((48, 38.75, 0), (48, 38.75, 5.75)),
-    ((48, 38.75, 5.75), (39, 38.75, 5.75)),
-    ((2, 0, 2), (2, 17.25, 2)),
-    ((2, 32.75, 2), (2, 50, 2)),
-    ((2, 0, 29), (2, 50, 29)),
+    # --- Charger Holder ---
+    ((2, 17.25, -2), (2, 32.75, -2)),          # Charger Insert Guide
+    ((2, 17.25, -10), (2, 32.75, -10)),        # Charger Insert Guide
+
+    # --- Front vertical reinforcement ---
+    ((2, 0, 2), (2, 17.25, 2)),                # Front-left vertical support
+    ((2, 32.75, 2), (2, 50, 2)),               # Front-right vertical support
+    ((2, 0, 29), (2, 50, 29)),                 # Top front reinforcement
+
+    # --- Wall Mounting Threads ---
+    ((48, 0, 25.25), (48, 50, 25.25)),         # Wall Insert Guide - Long
+    ((48, 0, 5.75), (48, 15.25, 5.75)),        # Wall Insert Guide - Top
+    ((48, 38.75, 5.75), (48, 50, 5.75)),       # Wall Insert Guide - Bottom
+
+    # --- Shelf support threads ---
+    ((25, 15.25, 5.75), (48, 15.25, 5.75)),    # Shelf horizontal support
+    ((25, 34.75, 5.75), (39, 34.75, 5.75)),    # Shelf rear brace
+
+    # --- Vertical fastener risers ---
+    ((48, 15.25, 0), (48, 15.25, 5.75)),       # Wall fastener riser (lower)
+    ((39, 34.75, 0), (39, 34.75, 5.75)),       # Shelf fastener riser
+
+    # --- Upper fastener bridges ---
+    ((39, 34.75, 5.75), (39, 38.75, 5.75)),    # Vertical connector
+    ((48, 38.75, 0), (48, 38.75, 5.75)),       # Wall fastener riser (upper)
+    ((48, 38.75, 5.75), (39, 38.75, 5.75)),    # Upper horizontal connector
 ]
+
 
 for start, end in cyl_positions:
     start_v = Vector(*start)
