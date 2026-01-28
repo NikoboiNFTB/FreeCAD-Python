@@ -1,0 +1,8 @@
+Measures:
+
+Holder 32mm * 48mm
+Distance to shelf: 26mm
+Cable thiccness: 4mm
+USB-C thiccness: 12mm*6mm (irrelevant-ish)
+
+Ring radius: 24mm and 11mm * 6mm or 8mm
